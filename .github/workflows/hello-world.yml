@@ -1,0 +1,35 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  job1:
+    name: Job 1 - setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Say Hello from Job 1
+        run: echo "Hello from Job 1"
+
+  job2:
+    name: Job 2 - depends on Job 1
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello from Job 2
+        run: echo "Hello from Job 2 (after Job 1)"
+
+  job3:
+    name: Job 3 - parallel job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello from Job 3
+        run: |
+          echo "Hello from Job 3"
+          echo "This job runs in parallel to Job 1 (and does not require Job 2)"
